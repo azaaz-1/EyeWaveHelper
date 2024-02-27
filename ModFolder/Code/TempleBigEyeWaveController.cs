@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Celeste.Mod.Entities;
 
+
 namespace Celeste.Mod.EyeWaveHelper.Entities;
 
 [CustomEntity("EyeWaveHelper/TempleBigEyeWaveController"), Tracked]
 
 public class TempleBigEyeWaveController : Entity
 {
+	public enum Directions  {Up, Left };
 
 	private float shockwaveTimer = 2f;
 	private float waveInterval = 2f;
 	private float distance = 50f;
+	private Directions direction;
 	private string flag;
 
     public TempleBigEyeWaveController(EntityData e, Vector2 offset)
@@ -23,6 +26,7 @@ public class TempleBigEyeWaveController : Entity
 		waveInterval = e.Float("maxInterval", 2f);
 		distance = e.Float("distance", 50f);
 		flag = e.Attr("flag");
+		direction = e.Enum("direction", Directions.Up);
     }
 
     public override void Awake(Scene scene)
@@ -33,7 +37,7 @@ public class TempleBigEyeWaveController : Entity
     public override void Update()
     {
         base.Update();
-		Logger.Log(distance.ToString(), waveInterval.ToString());
+		//Logger.Log(distance.ToString(), waveInterval.ToString());
 		if (base.SceneAs<Level>().Session.GetFlag(flag) == false)
         {
 			shockwaveTimer = waveInterval;
@@ -49,7 +53,7 @@ public class TempleBigEyeWaveController : Entity
 				{
 					shockwaveTimer = waveInterval;
 				}
-				base.Scene.Add(Engine.Pooler.Create<TempleBigEyeballShockwave>().Init(entity.Center + new Vector2(distance, 0f)));
+				base.Scene.Add(Engine.Pooler.Create<CustomEyeWave>().Init(entity.Center, distance, direction));
 			}
 		}
 	}

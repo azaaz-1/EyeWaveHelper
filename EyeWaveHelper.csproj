@@ -15,5 +15,9 @@
 		<Using Include="System.Threading.Tasks" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="ModFolder\Graphics\Atlases\Gameplay\utils\" />
+	</ItemGroup>
+
 	<Import Project="CelesteMod.targets" />
 </Project>
