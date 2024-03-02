@@ -19,6 +19,7 @@ public class TempleBigEyeWaveController : Entity
 	private float distance = 50f;
 	private Directions direction;
 	private string flag;
+	private float waveStrength;
 
     public TempleBigEyeWaveController(EntityData e, Vector2 offset)
         : base(e.Position + offset)
@@ -27,6 +28,7 @@ public class TempleBigEyeWaveController : Entity
 		distance = e.Float("distance", 50f);
 		flag = e.Attr("flag");
 		direction = e.Enum("direction", Directions.Up);
+		waveStrength = e.Float("strength", 100f);
     }
 
     public override void Awake(Scene scene)
@@ -37,7 +39,7 @@ public class TempleBigEyeWaveController : Entity
     public override void Update()
     {
         base.Update();
-		//Logger.Log(distance.ToString(), waveInterval.ToString());
+		//Logger.Log(shockwaveTimer.ToString(), waveInterval.ToString());
 		if (base.SceneAs<Level>().Session.GetFlag(flag) == false)
         {
 			shockwaveTimer = waveInterval;
@@ -52,8 +54,9 @@ public class TempleBigEyeWaveController : Entity
 				if (entity != null)
 				{
 					shockwaveTimer = waveInterval;
+					base.Scene.Add(Engine.Pooler.Create<CustomEyeWave>().Init(entity.Center, distance, direction, waveStrength));
 				}
-				base.Scene.Add(Engine.Pooler.Create<CustomEyeWave>().Init(entity.Center, distance, direction));
+
 			}
 		}
 	}

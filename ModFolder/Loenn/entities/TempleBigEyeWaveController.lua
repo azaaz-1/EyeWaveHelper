@@ -15,6 +15,7 @@ TempleBigEyeWaveController =
                 direction = "Left",
                 maxInterval = 2,
                 distance = 50,
+                strength = 100,
                 flag = ""
             },
         },

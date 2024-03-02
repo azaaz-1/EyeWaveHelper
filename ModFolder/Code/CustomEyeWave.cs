@@ -21,6 +21,8 @@ public class CustomEyeWave : Entity
 
 	private Directions direction;
 
+	private float strength;
+
 	public CustomEyeWave()
 	{
 		base.Depth = -1000000;
@@ -39,7 +41,7 @@ public class CustomEyeWave : Entity
 		Add(new DisplacementRenderHook(RenderDisplacement));
 	}
 
-	public CustomEyeWave Init(Vector2 position, float distance, Directions direction)
+	public CustomEyeWave Init(Vector2 position, float distance, Directions direction, float strength)
 	{
 		if (direction == Directions.Up)
 			Position = position + new Vector2(0f, distance);
@@ -49,6 +51,7 @@ public class CustomEyeWave : Entity
 		Collidable = true;
 		distortionAlpha = 0f;
 		hasHitPlayer = false;
+		this.strength = strength;
 
 		MTexture mTexture = GFX.Game["util/displacementCircleHollow"];
 		if (direction == Directions.Left)
@@ -106,7 +109,7 @@ public class CustomEyeWave : Entity
 		{
 			if (direction == Directions.Left)
 			{
-				player.Speed.X = -100f;
+				player.Speed.X = -1 * strength;
 				if (player.Speed.Y > 30f)
 				{
 					player.Speed.Y = 30f;
@@ -114,7 +117,7 @@ public class CustomEyeWave : Entity
 			}
 			else if (direction == Directions.Up)
 			{
-				player.Speed.Y = -100f;
+				player.Speed.Y = -1 * strength;
 			}
 			if (!hasHitPlayer)
 			{
